@@ -1,0 +1,59 @@
+--SUMMARY:
+
+--How many columns does this table have?
+SELECT *
+FROM startups;
+
+--What is the total number of companies in the table?
+SELECT COUNT(*)
+FROM startups;
+
+--What is the total value of all of the companies?
+SELECT SUM(valuation)
+FROM startups;
+
+--What is the highest amount raised by a startup?
+SELECT name, MAX(raised)
+FROM startups;
+
+--What is the highest amount raised by a startup during 'Seed' stage?
+SELECT name, MAX(raised)
+FROM startups
+WHERE stage = 'Seed';
+
+--In what year was the oldest company on the list founded?
+SELECT name, MIN(founded)
+FROM startups;
+
+
+--VALUATION:
+
+--What is the average valuation?
+SELECT ROUND(AVG(valuation), 2)
+FROM startups;
+
+--What is the average valuation for each sector?
+SELECT category AS 'sector', ROUND(AVG(valuation), 2)
+FROM startups
+GROUP BY 1
+ORDER BY 2 DESC;
+
+
+--COMPETITION
+
+--What are the most competitive markets?
+SELECT category AS 'sector', COUNT(*)
+FROM startups
+GROUP BY 1
+HAVING COUNT(*) > 3
+ORDER BY 2 DESC;
+
+
+--SIZE AND LOCATION
+
+--What is the average size of a startup in each location, with average sizes above 500?
+SELECT location, ROUND(AVG(employees), 0)
+FROM startups
+GROUP BY 1
+HAVING ROUND(AVG(employees), 0) > 500
+ORDER BY 2 DESC;
