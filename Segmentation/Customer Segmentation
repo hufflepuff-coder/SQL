@@ -1,0 +1,35 @@
+--What are the column names?
+SELECT* 
+FROM users
+LIMIT 20;
+ 
+--Who are the users born in the 80s?
+SELECT email, birthday
+FROM users
+WHERE birthday BETWEEN '1980-01-01' AND '1989-12-31';
+
+--Who are the users who signed up before May 2017?
+SELECT email, created_at
+FROM users
+WHERE created_at < '2017-05-01';
+
+--Which users were shown 'bears' in the A/B test?
+SELECT email
+FROM users
+WHERE test = 'bears';
+
+--Which users received a campaign on website BBB?
+SELECT email
+FROM users
+WHERE campaign LIKE 'BBB%';
+
+--Which users received ad copy 2 in their campaign? 
+SELECT email
+FROM users
+WHERE campaign LIKE '%-2';
+
+--Which users received both a campaign and a test?
+SELECT email
+FROM users
+WHERE campaign IS NOT NULL 
+  AND test IS NOT NULL;
