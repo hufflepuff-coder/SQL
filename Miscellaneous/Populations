@@ -1,44 +1,49 @@
 --How many entries in the countries table are from Africa?
-SELECT COUNT(*)
+SELECT COUNT(*) AS 'total number of African countries in table'
 FROM countries
 WHERE continent = 'Africa';
 
+
 --What was the total population of the continent of Oceania in 2005?
-SELECT SUM(population)
-FROM countries
-JOIN population_years
-  ON countries.id = population_years.country_id
-WHERE continent = 'Oceania' AND year = 2005;
+SELECT round(sum(population_years.population), 0) AS 'total population of oceania in 2005'
+FROM population_years
+JOIN countries
+	ON population_years.country_id = countries.id
+WHERE population_years.year = 2005
+	AND countries.continent = 'Oceania';
 
 --What is the average population of countries in South America in 2003?
-SELECT AVG(population)
-FROM countries
-JOIN population_years
-  ON countries.id = population_years.country_id
-WHERE continent = 'South America' AND year = 2003;
+SELECT round(avg(population_years.population), 0) AS 'average south america population in 2003'
+FROM population_years
+JOIN countries
+	ON population_years.country_id = countries.id
+WHERE population_years.year = 2003
+	AND countries.continent = 'South America';
 
 --What country had the smallest population in 2007?
-SELECT countries.name, MIN(population)
-FROM countries
-JOIN population_years
-  ON countries.id = population_years.country_id
-WHERE year = 2007;
+SELECT min(population_years.population) AS 'country w/ smallest population in 2007', countries.name
+FROM population_years
+JOIN countries
+	ON population_years.country_id = countries.id
+WHERE population_years.year = 2007;
 
 --What is the average population of Poland during the time period covered by this dataset?
-SELECT AVG(population)
-FROM countries
-JOIN population_years
-  ON countries.id = population_years.country_id
-WHERE name = 'Poland';
+SELECT round(avg(population_years.population), 0) AS 'average poland population'
+FROM population_years
+JOIN countries
+	ON population_years.country_id = countries.id
+WHERE countries.name = 'Poland';
 
 --How many countries have the word “The” in their name?
-SELECT COUNT(*)
+SELECT COUNT(*) AS 'number of countries with "The" in their name'
 FROM countries
-WHERE name LIKE '%The%';
+WHERE name LIKE '%the%';
 
 --What was the total population of each continent in 2010?
-SELECT countries.continent, SUM(population_years.population)
-FROM countries
-JOIN population_years
-  ON countries.id = population_years.country_id
-GROUP BY continent;
+SELECT round(sum(population_years.population), 0) AS 'total population in 2010', countries.continent
+FROM population_years
+JOIN countries
+	ON population_years.country_id = countries.id
+WHERE population_years.year = 2010
+GROUP BY 2
+ORDER BY 1;
